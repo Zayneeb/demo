@@ -2,7 +2,7 @@ pipeline {
   agent any
   environment {
     // >>> Remplace par le vrai chemin de ton python.exe <<<
-    PY = 'C:\Users\ZAYNEB\AppData\Local\Python\bin\python.exe'
+    PY = 'C:\\Users\\ZAYNEB\\AppData\\Local\\Python\\bin\\python.exe'
   }
   stages {
     stage('Test') {
