@@ -3,12 +3,12 @@ pipeline {
   stages {
     stage('Test') {
       steps {
-        sh 'python3 -m pip install -r requirements-dev.txt'
-        sh 'pytest -q --junitxml=test-results.xml'
+        bat 'python -m pip install -r requirements-dev.txt'
+        bat 'pytest -q --junitxml=test-results.xml'
       }
       post {
         always {
-          junit 'test-results.xml'   // Affiche les tests dans Jenkins (onglet "Tests")
+          junit 'test-results.xml'
         }
       }
     }
