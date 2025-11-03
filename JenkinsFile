@@ -1,27 +1,21 @@
 pipeline {
   agent any
+  environment {
+    // >>> Remplace par le vrai chemin de ton python.exe <<<
+    PY = 'C:\\Users\\ZAYNEB\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe'
+  }
   stages {
     stage('Test') {
       steps {
         bat '''
         @echo on
-        rem Trouver Python (python ou py -3)
-        where python >NUL 2>&1 && (set "PY=python") || (set "PY=py -3")
-        %PY% --version
-
-        rem Installer directement pytest (sans requirements.txt)
-        %PY% -m pip install --upgrade pip
-        %PY% -m pip install pytest
-
-        rem Lancer les tests + générer le JUnit XML
-        %PY% -m pytest -q --junitxml=test-results.xml
+        "%PY%" --version
+        "%PY%" -m pip install --upgrade pip
+        "%PY%" -m pip install pytest
+        "%PY%" -m pytest -q --junitxml=test-results.xml
         '''
       }
-      post {
-        always {
-          junit 'test-results.xml'
-        }
-      }
+      post { always { junit 'test-results.xml' } }
     }
   }
 }
