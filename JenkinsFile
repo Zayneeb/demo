@@ -1,0 +1,16 @@
+pipeline {
+  agent any
+  stages {
+    stage('Test') {
+      steps {
+        sh 'python3 -m pip install -r requirements-dev.txt'
+        sh 'pytest -q --junitxml=test-results.xml'
+      }
+      post {
+        always {
+          junit 'test-results.xml'   // Affiche les tests dans Jenkins (onglet "Tests")
+        }
+      }
+    }
+  }
+}
