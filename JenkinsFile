@@ -3,8 +3,19 @@ pipeline {
   stages {
     stage('Test') {
       steps {
-        bat 'python -m pip install -r requirements-dev.txt'
-        bat 'pytest -q --junitxml=test-results.xml'
+        bat '''
+        @echo on
+        rem Trouver Python (python ou py -3)
+        where python >NUL 2>&1 && (set "PY=python") || (set "PY=py -3")
+        %PY% --version
+
+        rem Installer directement pytest (sans requirements.txt)
+        %PY% -m pip install --upgrade pip
+        %PY% -m pip install pytest
+
+        rem Lancer les tests + générer le JUnit XML
+        %PY% -m pytest -q --junitxml=test-results.xml
+        '''
       }
       post {
         always {
